@@ -2185,6 +2185,7 @@ extern struct globals_var *BB_GLOBAL_CONST ash_ptr_to_globals_var;
 #define ifsset()        ((vifs.flags & VUNSET) == 0)
 #if ENABLE_ASH_MAIL
 # define mailval()      (vmail.var_text + 5)
+# define mailset()     ((vmail.flags & VUNSET) == 0)
 # define mpathval()     (vmpath.var_text + 9)
 # define mpathset()     ((vmpath.flags & VUNSET) == 0)
 #endif
@@ -10986,7 +10987,12 @@ chkmail(void)
 	struct stat statb;
 
 	setstackmark(&smark);
-	mpath = mpathset() ? mpathval() : mailval();
+	if (mpathset())
+		mpath = mpathval();
+	else if (mailset())
+		mpath = mailval();
+	else
+		return;
 	new_hash = 0;
 	for (;;) {
 		p = path_advance(&mpath, nullstr);
