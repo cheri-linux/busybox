@@ -31,6 +31,8 @@ CFLAGS += $(call cc-option,-Wdeclaration-after-statement,)
 # If you want to add more -Wsomething above, make sure that it is
 # still possible to build bbox without warnings.
 
+CFLAGS += $(call cc-option,-ftrivial-auto-var-init=zero -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang,)
+
 ifeq ($(CONFIG_WERROR),y)
 CFLAGS += $(call cc-option,-Werror,)
 ## TODO:
