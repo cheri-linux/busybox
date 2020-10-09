@@ -2156,7 +2156,7 @@ extern struct globals *const ptr_to_globals;
 /* At least gcc 3.4.6 on mipsel system needs optimization barrier */
 #define barrier() __asm__ __volatile__("":::"memory")
 #define SET_PTR_TO_GLOBALS(x) do { \
-	(*(struct globals**)&ptr_to_globals) = (void*)(x); \
+	(*(struct globals*volatile*)&ptr_to_globals) = (void*)(x); \
 	barrier(); \
 } while (0)
 #define FREE_PTR_TO_GLOBALS() do { \
